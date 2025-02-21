@@ -1,16 +1,29 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const ErrorHandler = require("./middleware/error");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const cors=require('cors')
 
-//Config
-const connectDatabase = require('./db/Database');
-connectDatabase();
 
-if(process.env.NODE_ENV !== "PRODUCTION"){
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+app.use(cookieParser());
+app.use("/",express.static("uploads"));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cors())
+// config
+if (process.env.NODE_ENV !== "PRODUCTION") {
     require("dotenv").config({
-        path:"backend/config/.env"
-    })
-}
+      path: "backend/config/.env",
+    });
+};
+//import Routes
+const user = require("./controller/user");
 
-app.use(ErrorHandler)
+app.use("/api/v2/user", user);
 
-module.exports=app;
+// it's for ErrorHandling
+app.use(ErrorHandler);
+
+module.exports = app;
