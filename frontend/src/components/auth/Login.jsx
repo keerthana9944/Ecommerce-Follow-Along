@@ -1,4 +1,10 @@
 import { React, useState } from "react";
+import { Link } from 'react-router-dom';
+ 
+     	<p className="text-center">
+        	Don't have an account ? <Link to={'/signup'}>Sign up</Link>
+      	</p>
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,6 +49,9 @@ const Login = () => {
                         Submit
                     </button>
                 </div>
+
+                <p className="text-center text-red-900">Donot have an account ?<Link to={'/signup'} className="text-blue-600">Signup</Link>
+          </p>
             </form>
         </div>
       </div>
